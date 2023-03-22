@@ -12,5 +12,13 @@ jobs:
           python-version: "3.8"
           cache: "pip"
       - run: pip install -r requirements.txt
-      - run: python src/backend/src/crawleconomists.py
-      - run: cat 20230322.txt
+      - run: git clone https://${{secrets.ACCESS_TOKEN}}@github.com/ahacad/newscloud-data
+      - run: mkdir -p newscloud-data/economists
+      - run: python src/backend/src/crawleconomists.py --folder newscloud-data/economists
+      - run: |
+            git config --global user.email "ahacad@bot.com"
+            git config --global user.name "ahacadbot"
+            cd newscloud-data
+            git add .
+            git commit -m "update crawled data $(date)"
+            git push
