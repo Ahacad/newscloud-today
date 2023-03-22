@@ -1,0 +1,4 @@
+requests==2.27.1
+bs4==0.0.1
+news-please==1.5.22
+tqdm==4.64.1
