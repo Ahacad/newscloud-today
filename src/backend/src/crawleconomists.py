@@ -4,9 +4,17 @@ from newsplease import NewsPlease
 from tqdm import tqdm
 import multiprocessing
 from datetime import datetime, timezone
+import argparse
 
+# CONSTANTS
 num_processes = 16
 
+# arg parser for command line inputs
+parser = argparse.ArgumentParser(description="Crawl economist.com for articles")
+parser.add_argument("--folder", type=str, nargs="?", help="folder to save articles", default="")
+args = parser.parse_args()
+
+# get direct child links from economist.com
 url = 'https://www.economist.com/'
 response = requests.get(url)
 soup = BeautifulSoup(response.content, 'html.parser')
@@ -29,7 +37,6 @@ def get_article(url):
 
 
 corpus = []
-
 with multiprocessing.Pool(processes=num_processes) as pool:
     with tqdm(total=len(links)) as pbar:
         processed_lists = []
@@ -41,12 +48,11 @@ with multiprocessing.Pool(processes=num_processes) as pool:
 
 corpus = [x if x is not None else "" for x in corpus]
 
+
 now_utc = datetime.now(timezone.utc)
 year = now_utc.year
 month = '{:02d}'.format(now_utc.month)
 day = '{:02d}'.format(now_utc.day)
-
-
-with open(f"{year}{month}{day}.txt", "w") as f:
+with open(f"./{args.folder}/{year}{month}{day}.txt", "w") as f:
     lines = list(map(lambda s: str(s) + '\n', corpus))
     f.writelines(lines)
