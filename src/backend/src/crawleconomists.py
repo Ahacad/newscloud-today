@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from newsplease import NewsPlease
 from tqdm import tqdm
 import multiprocessing
+from datetime import datetime, timezone
 
 num_processes = 16
 
@@ -40,6 +41,12 @@ with multiprocessing.Pool(processes=num_processes) as pool:
 
 corpus = [x if x is not None else "" for x in corpus]
 
-with open("out.txt", "w") as f:
+now_utc = datetime.now(timezone.utc)
+year = now_utc.year
+month = '{:02d}'.format(now_utc.month)
+day = '{:02d}'.format(now_utc.day)
+
+
+with open(f"{year}{month}{day}.txt", "w") as f:
     lines = list(map(lambda s: str(s) + '\n', corpus))
     f.writelines(lines)
