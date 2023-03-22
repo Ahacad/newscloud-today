@@ -1,0 +1,16 @@
+name: crawl news and save data
+
+on: [push]
+
+jobs:
+  crawl-economists:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+          cache: "pip"
+      - run: pip install -r requirements.txt
+      - run: python src/backend/src/crawleconomists.py
+      - run: cat 20230322.txt
