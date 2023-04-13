@@ -2,6 +2,8 @@
 
 Wordcloud &amp; more generated from major news website, today.
 
+Data saved to [ahacad/newscloud-data](https://github.com/ahacad/newscloud-data), I set a crontab in GitHub actions to run the script everyday.
+
 ## Websites
 
 - economist.com
