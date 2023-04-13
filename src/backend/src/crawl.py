@@ -115,6 +115,40 @@ class EconomistCrawler(Crawler):
             if href.startswith("/"):
                 self.links.append(f"{self.url}{href}")
 
+class MITTechReviewCrawler(Crawler):
+    def __init__(self, url, folder):
+        super().__init__(url, folder)
+
+    def get_links(self):
+        """
+        get direct child links from technologyreview.com
+        """
+        response = requests.get(self.url)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        for link in soup.find_all('a'):
+            href = link.get('href')
+            if href.startswith("https://www.technologyreview.com"):
+                self.links.append(href)
+
+class AmericanAffairsCrawler(Crawler):
+    def __init__(self, url, folder):
+        super().__init__(url, folder)
+
+    def get_links(self):
+        """
+        get direct child links from americanaffairsjournal.org
+        """
+        response = requests.get(self.url)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        for link in soup.find_all('a'):
+            href = link.get('href')
+            if href.startswith("https://americanaffairsjournal.org"):
+                self.links.append(href)
+
 if __name__ == "__main__":
     economist_crawler = EconomistCrawler("https://www.economist.com", f"{args.folder}/economists")
     economist_crawler.run()
+    mittechreviewcrawler = MITTechReviewCrawler("https://www.technologyreview.com", f"{args.folder}/mittechreview")
+    mittechreviewcrawler.run()
+    americanaffairscrawler = AmericanAffairsCrawler("https://americanaffairsjournal.org", f"{args.folder}/americanaffairs")
+    americanaffairscrawler.run()
