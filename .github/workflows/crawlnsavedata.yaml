@@ -3,7 +3,7 @@ name: crawl news and save data
 on:
   schedule:
     - cron: '30 5 * * *'
-  push:
+  pull_request:
 
 jobs:
   crawl-economists:
