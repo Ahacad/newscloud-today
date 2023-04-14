@@ -17,7 +17,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: git clone https://${{secrets.ACCESS_TOKEN}}@github.com/ahacad/newscloud-data
       - run: mkdir -p newscloud-data
-      - run: python src/backend/src/crawleconomists.py --folder newscloud-data
+      - run: python src/backend/src/crawl.py --folder newscloud-data
       - run: |
             git config --global user.email "ahacad@bot.com"
             git config --global user.name "ahacadbot"
